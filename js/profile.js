@@ -25,13 +25,30 @@ async function loaadProfile() {
             amount
           }
         }
-
-        transaction(
+        level: transaction(
           where: { type: { _eq: "level" } }
           order_by: { createdAt: desc }
           limit: 1
         ) {
           amount
+          path
+          createdAt
+        }
+
+        projects: transaction(
+          where: {
+            _and: [
+              { type: { _eq: "xp" } }
+              { path: { _like: "/oujda/module/%" } }
+              { path: { _nlike: "/oujda/module/piscine-js/%" } }
+              { path: { _nlike: "/oujda/module/checkpoint/%" } }
+            ]
+          }
+          order_by: { createdAt: desc }
+        ) {
+          path
+          amount
+          createdAt
         }
       }
     `);
@@ -45,9 +62,39 @@ async function loaadProfile() {
     document.getElementById("ratio").textContent =
       `ratio: ${user.auditRatio.toFixed(1)}`;
     document.getElementById("level").textContent =
-      `level: ${data.transaction[0].amount}`;
+      `level: ${data.level[0].amount}`;
+
+    const tbody = document.getElementById("projects");
+
+    data.projects.forEach((project) => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+    <td>${project.path.split("/").pop()}</td>
+    <td>${formatXP(Number(project.amount))}</td>
+    <td>${new Date(project.createdAt).toLocaleDateString()}</td>
+  `;
+
+      tbody.appendChild(row);
+    });
   } catch (err) {
     console.log(err);
   }
+}
+
+function formatXP(amount) {
+  if (amount < 1000) {
+    return `${amount} B`;
+  }
+
+  const kb = amount / 1000;
+
+  if (Number.isInteger(kb)) {
+    return `${kb} kB`;
+  }
+  if (kb < 10) {
+    return `${kb.toFixed(2)} kB`;
+  }
+  return `${kb.toFixed(1)} kB`;
 }
 loaadProfile();
