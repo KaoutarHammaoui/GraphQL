@@ -13,18 +13,28 @@ async function loaadProfile() {
         user {
           id
           login
-          xps {
+          xps(
+            where: {
+              _and: [
+                { path: { _like: "/oujda/module/%" } }
+                { path: { _nlike: "/oujda/module/piscine-js/%" } }
+              ]
+            }
+          ) {
             amount
+            path
+            originEventId
           }
         }
       }
     `);
     const user = data.user[0];
     const xps = data.user[0].xps;
-    const totalXp = xps.reduce((sum, t) => sum + Number(t.amount), 0);
+    console.table(xps);
+    const totalXp = (xps.reduce((sum, t) => sum + Number(t.amount), 0))/1000;
     document.getElementById("log").textContent = user.login;
     document.getElementById("userId").textContent = `User ID: ${user.id}`;
-    document.getElementById("xp").textContent = `xp: ${totalXp}`;
+    document.getElementById("xp").textContent = `xp: ${Math.floor(totalXp)} KB`;
   } catch (err) {
     console.log(err);
   }
