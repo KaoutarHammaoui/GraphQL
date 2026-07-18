@@ -13,12 +13,18 @@ async function loaadProfile() {
         user {
           id
           login
+          xps {
+            amount
+          }
         }
       }
     `);
-      const user = data.user[0];
-      document.getElementById('log').textContent = user.login;
-      document.getElementById('userId').textContent = `User ID: ${user.id}`;
+    const user = data.user[0];
+    const xps = data.user[0].xps;
+    const totalXp = xps.reduce((sum, t) => sum + Number(t.amount), 0);
+    document.getElementById("log").textContent = user.login;
+    document.getElementById("userId").textContent = `User ID: ${user.id}`;
+    document.getElementById("xp").textContent = `xp: ${totalXp}`;
   } catch (err) {
     console.log(err);
   }
