@@ -1,4 +1,5 @@
 import { graphql } from "./graphql.js";
+import { drawXpChart, drawAuditChart } from "./charts.js";
 
 const tok = localStorage.getItem("token");
 if (!tok) {
@@ -14,6 +15,8 @@ async function loaadProfile() {
           id
           login
           auditRatio
+          totalUp
+          totalDown
           xps(
             where: {
               _and: [
@@ -77,12 +80,15 @@ async function loaadProfile() {
 
       tbody.appendChild(row);
     });
+
+    drawXpChart([...data.projects].reverse());
+    drawAuditChart(user.totalUp, user.totalDown);
   } catch (err) {
     console.log(err);
   }
 }
 
-function formatXP(amount) {
+export function formatXP(amount) {
   if (amount < 1000) {
     return `${amount} B`;
   }

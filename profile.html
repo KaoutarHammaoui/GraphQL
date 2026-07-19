@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1 id="log">Loading...</h1>
     <p id="userId"></p>
     <p id="xp"></p>
@@ -13,18 +14,25 @@
     <p id="level"></p>
 
     <table border="1">
-        <thead>
-            <th>project</th>
-            <th>xp</th>
-            <th>date</th>
-        </thead>
-        <tbody id="projects">
-            <tr id="pr"></tr>
-            <tr id="PrXp"></tr>
-            <tr id="PrDate"></tr>
-        </tbody>
+      <thead>
+        <th>project</th>
+        <th>xp</th>
+        <th>date</th>
+      </thead>
+      <tbody id="projects">
+        <tr id="pr"></tr>
+        <tr id="PrXp"></tr>
+        <tr id="PrDate"></tr>
+      </tbody>
     </table>
+    <h2>Statistics</h2>
+
+    <div class="chart-wrapper">
+      <svg class="chart" id="xpChart" width="700" height="250"></svg>
+      <svg class="chart audit-chart" id="auditChart" width="250" height="250"></svg>
+    </div>
+
     <p>hey babe</p>
     <script type="module" src="js/profile.js"></script>
-</body>
+  </body>
 </html>
