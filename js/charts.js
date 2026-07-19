@@ -10,26 +10,25 @@ export function drawXpChart(projects) {
   const maxXP = Math.max(...projects.map((p) => Number(p.amount)));
   const barWidth = chartWidth / projects.length;
 
-    const axis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  const axis = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
-    axis.setAttribute("x1", 0);
-    axis.setAttribute("y1", chartHeight);
-    axis.setAttribute("x2", chartWidth);
-    axis.setAttribute("y2", chartHeight);
+  axis.setAttribute("x1", 0);
+  axis.setAttribute("y1", chartHeight);
+  axis.setAttribute("x2", chartWidth);
+  axis.setAttribute("y2", chartHeight);
 
-    axis.setAttribute("stroke", "#999");
+  axis.setAttribute("stroke", "#999");
 
-    svg.appendChild(axis);
-    console.log(projects.length);
+  svg.appendChild(axis);
 
-    projects.forEach((p, i) => {
-    });
-    projects.forEach((project, index) => {
-        const barHeight = (Number(project.amount) / maxXP) * chartHeight;
-        
-        const x = index * barWidth;
-        const y = chartHeight - barHeight;
-        console.log(index, x, project.path.split("/").pop());
+  projects.forEach((project, index) => {
+    const barHeight = Math.max(
+      (Number(project.amount) / maxXP) * chartHeight,
+      2,
+    );
+    const gap = 2;
+    const x = index * (barWidth + gap);
+    const y = chartHeight - barHeight;
 
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     const title = document.createElementNS(
@@ -45,7 +44,9 @@ ${formatXP(Number(project.amount))}`;
     rect.setAttribute("y", y);
     rect.setAttribute("width", barWidth - 4);
     rect.setAttribute("height", barHeight);
-    rect.setAttribute("fill", "#6c63ff");
+    rect.setAttribute("fill", "red");
+    rect.setAttribute("stroke", "black");
+    rect.setAttribute("stroke-width", "1");
     rect.setAttribute("rx", 3);
     rect.setAttribute("ry", 3);
     svg.appendChild(rect);
