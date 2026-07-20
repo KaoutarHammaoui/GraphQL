@@ -1,11 +1,18 @@
 import { graphql } from "./graphql.js";
 import { drawXpChart, drawAuditChart } from "./charts.js";
 
+
+
 const tok = localStorage.getItem("token");
-if (!tok) {
-  console.log("No token found");
-  window.location.href = "index.html";
-}
+
+  if (!tok) {
+    window.location.replace("index.html");
+  }
+  
+document.getElementById("logout").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  window.location.replace("index.html");
+});
 
 async function loaadProfile() {
   try {

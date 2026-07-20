@@ -1,5 +1,14 @@
 import { login } from "./auth.js";
 
+window.addEventListener("pageshow", () => {
+  const user = document.getElementById("emailUsername");
+  const pass = document.getElementById("password");
+
+  user.value = "";
+  pass.value = "";
+
+});
+
 const form = document.getElementById('loginF');
 
 form.addEventListener("submit",async(e) => {

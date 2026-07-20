@@ -67,13 +67,15 @@ export function drawAuditChart(up, down) {
   const upPercent = up / total;
   const downPercent = down / total;
 
+  const upText = formatXP(up);
+  const downText = formatXP(down);
+
   const circumference = 2 * Math.PI * radius;
 
   const upLength = circumference * upPercent;
   const downLength = circumference * downPercent;
 
   svg.innerHTML = `
-    <!-- background -->
     <circle
       cx="${center}"
       cy="${center}"
@@ -84,7 +86,6 @@ export function drawAuditChart(up, down) {
       stroke-width="${stroke}"
     />
 
-    <!-- green -->
     <circle
       cx="${center}"
       cy="${center}"
@@ -96,7 +97,6 @@ export function drawAuditChart(up, down) {
       transform="rotate(-90 ${center} ${center})"
     />
 
-    <!-- red -->
     <circle
       cx="${center}"
       cy="${center}"
@@ -109,14 +109,38 @@ export function drawAuditChart(up, down) {
       transform="rotate(-90 ${center} ${center})"
     />
 
-    <text
-      x="${center}"
-      y="${center}"
-      text-anchor="middle"
-      dominant-baseline="middle"
-      font-size="18"
-      font-weight="bold"
-    >
-    ${(up / down).toFixed(1)}    </text>
+  <text
+    x="${center}"
+    y="${center - 8}"
+    text-anchor="middle"
+    font-size="24"
+    font-weight="bold">
+    ${(up / down).toFixed(1)}×
+  </text>
+
+  <text
+    x="${center}"
+    y="${center + 18}"
+    text-anchor="middle"
+    font-size="12"
+    fill="#666">
+    Audit Ratio
+  </text>
+
+  <text
+    x="35"
+    y="215"
+    font-size="13"
+    fill="#4CAF50">
+    ↑ ${upText}
+</text>
+
+<text
+    x="145"
+    y="215"
+    font-size="13"
+    fill="#F44336">
+    ↓ ${downText}
+</text>
   `;
 }
