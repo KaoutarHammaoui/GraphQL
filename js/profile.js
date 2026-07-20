@@ -8,11 +8,13 @@ const tok = localStorage.getItem("token");
   if (!tok) {
     window.location.replace("index.html");
   }
-  
+
 document.getElementById("logout").addEventListener("click", () => {
   localStorage.removeItem("token");
   window.location.replace("index.html");
 });
+
+
 
 async function loaadProfile() {
   try {
@@ -21,6 +23,7 @@ async function loaadProfile() {
         user {
           id
           login
+          avatarUrl
           auditRatio
           totalUp
           totalDown
@@ -66,6 +69,7 @@ async function loaadProfile() {
     const xps = data.user[0].xps;
     const totalXp = xps.reduce((sum, t) => sum + Number(t.amount), 0) / 1000;
 
+    document.getElementById("avatar").src = user.avatarUrl;
     document.getElementById("log").textContent = user.login;
     document.getElementById("userId").textContent = `User ID: ${user.id}`;
     document.getElementById("xp").textContent = `xp: ${Math.floor(totalXp)} KB`;
