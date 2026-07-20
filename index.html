@@ -3,15 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Login</title>
 </head>
 <body>
-    <form action="" id="loginF" >
-        <input placeholder="email/username" id="emailUsername" required></input> <br>
-        <input type="password" name="pass" id="password" placeholder="password" required> <br>
-        <button type="submit">LOGIN</button>
+    <div class="auth-shell">
+      <form action="" id="loginF" class="auth-card">
+        <div class="brand">
+          <span class="brand-mark">Z01</span>
+          <span class="brand-name">Hunter Status</span>
+        </div>
+        <h1 class="auth-title">Sign in</h1>
+        <p class="auth-subtitle">Enter your credentials to view your status</p>
+
+        <div class="field">
+          <label for="emailUsername">Email or username</label>
+          <input placeholder="email/username" id="emailUsername" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" name="pass" id="password" placeholder="password" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Log in</button>
         <p id="error"></p>
-   </form>
+      </form>
+    </div>
    <script type="module" src="js/login.js"></script>
 </body>
 </html>

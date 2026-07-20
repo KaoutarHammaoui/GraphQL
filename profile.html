@@ -7,31 +7,62 @@
     <title>Profile</title>
   </head>
   <body>
-    <button id="logout">logout</button>
-    <h1 id="log">Loading...</h1>
-        <img id="avatar" alt="">
-    <p id="userId"></p>
-    <p id="xp"></p>
-    <p id="ratio"></p>
-    <p id="level"></p>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">Z01</span>
+          <span class="brand-name">Hunter Status</span>
+        </div>
+        <button id="logout" class="btn-logout">Log out</button>
+      </header>
 
-    <table border="1">
-      <thead>
-        <th>project</th>
-        <th>xp</th>
-        <th>date</th>
-      </thead>
-      <tbody id="projects">
-        <tr id="pr"></tr>
-        <tr id="PrXp"></tr>
-        <tr id="PrDate"></tr>
-      </tbody>
-    </table>
-    <h2>Statistics</h2>
+      <main class="dashboard">
+        <section class="card card-profile">
+          <div class="card-eyebrow">Profile</div>
+          <div class="profile-main">
+            <div class="avatar-ring">
+              <img id="avatar" alt="" />
+              <p id="level"></p>
+            </div>
+            <div class="profile-info">
+              <h1 id="log">Loading...</h1>
+              <p id="userId"></p>
+              <div class="stat-row">
+                <p id="xp" class="stat-chip"></p>
+                <p id="ratio" class="stat-chip"></p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    <div class="chart-wrapper">
-      <svg class="chart" id="xpChart" width="700" height="250"></svg>
-      <svg class="chart audit-chart" id="auditChart" width="250" height="250"></svg>
+        <section class="card card-xp">
+          <div class="card-eyebrow">XP Progression</div>
+          <div class="chart-wrapper">
+            <svg class="chart" id="xpChart" viewBox="0 0 700 250" width="700" height="250"></svg>
+          </div>
+        </section>
+
+        <section class="card card-audit">
+          <div class="card-eyebrow">Audit Ratio</div>
+          <svg class="chart audit-chart" id="auditChart" viewBox="0 0 250 250" width="250" height="250"></svg>
+        </section>
+
+        <section class="card card-projects">
+          <div class="card-eyebrow">Completed Projects</div>
+          <div class="projects-scroll">
+            <table class="projects-table">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  <th>XP</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="projects"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
     </div>
 
     <script type="module" src="js/profile.js"></script>
