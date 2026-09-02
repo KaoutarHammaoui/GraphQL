@@ -11,6 +11,11 @@ window.addEventListener("pageshow", () => {
 
 const form = document.getElementById('loginF');
 
+const tok=localStorage.getItem("token");
+if (tok){
+    window.location.replace("profile.html")
+}
+
 form.addEventListener("submit",async(e) => {
     e.preventDefault();
     const emailUsername = document.getElementById("emailUsername").value;
