@@ -89,6 +89,12 @@ body::after {
   border-bottom: 1px solid var(--border-glow);
 }
 
+.xp-chart-wrapper {
+  width: 650px;       
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .brand {
   display: flex;
   align-items: center;

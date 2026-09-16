@@ -5,8 +5,9 @@ export function drawXpChart(projects) {
   svg.innerHTML = "";
 
   const chartHeight = 180;
-  const chartWidth = 650;
-
+  const minWidth = 14
+  const neededWidth = projects.length * minWidth
+  const chartWidth = Math.max(650, neededWidth);
   const maxXP = Math.max(...projects.map((p) => Number(p.amount)));
   const barWidth = chartWidth / projects.length;
 
@@ -19,6 +20,8 @@ export function drawXpChart(projects) {
 
   axis.setAttribute("stroke", "#3a3252");
 
+  svg.setAttribute("width", chartWidth);
+  svg.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
   svg.appendChild(axis);
 
   projects.forEach((project, index) => {
@@ -27,9 +30,9 @@ export function drawXpChart(projects) {
       2,
     );
     const gap = 2;
-    const x = index * (barWidth + gap);
+    const x = index * barWidth ;
     const y = chartHeight - barHeight;
-
+    const rectWidth=Math.max(barWidth-gap,2)
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     const title = document.createElementNS(
       "http://www.w3.org/2000/svg",
@@ -42,7 +45,7 @@ ${formatXP(Number(project.amount))}`;
     rect.appendChild(title);
     rect.setAttribute("x", x);
     rect.setAttribute("y", y);
-    rect.setAttribute("width", barWidth - 4);
+    rect.setAttribute("width", rectWidth);
     rect.setAttribute("height", barHeight);
     rect.setAttribute("fill", "url(#xpBarGradient)");
     rect.setAttribute("stroke", "#c084fc");
