@@ -5,9 +5,9 @@ import { drawXpChart, drawAuditChart } from "./charts.js";
 
 const tok = localStorage.getItem("token");
 
-  if (!tok) {
-    window.location.replace("index.html");
-  }
+if (!tok) {
+  window.location.replace("index.html");
+}
 
 document.getElementById("logout").addEventListener("click", () => {
   localStorage.removeItem("token");
@@ -67,12 +67,18 @@ async function loaadProfile() {
     `);
     const user = data.user[0];
     const xps = data.user[0].xps;
-    const totalXp = xps.reduce((sum, t) => sum + Number(t.amount), 0) / 1000;
 
+    let totalXp = xps.reduce((sum, t) => sum + Number(t.amount), 0) / 1000;
+    if (totalXp > 1000) {
+      totalXp = totalXp / 1000
+      document.getElementById("xp").textContent = `xp: ${(totalXp).toFixed(2)} MB`;
+
+    } else {
+      document.getElementById("xp").textContent = `xp: ${Math.floor(totalXp)} KB`;
+    }
     document.getElementById("avatar").src = user.avatarUrl;
     document.getElementById("log").textContent = user.login;
     document.getElementById("userId").textContent = `User ID: ${user.id}`;
-    document.getElementById("xp").textContent = `xp: ${Math.floor(totalXp)} KB`;
     document.getElementById("ratio").textContent =
       `ratio: ${user.auditRatio.toFixed(1)}`;
     document.getElementById("level").textContent =
