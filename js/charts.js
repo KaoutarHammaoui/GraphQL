@@ -1,12 +1,13 @@
 import { formatXP } from "./profile.js";
 
-export function drawXpChart(projects) {
+export function drawXpChart(pr) {
   const svg = document.getElementById("xpChart");
   svg.innerHTML = "";
 
+  const projects = [...pr].sort((a, b) => Number(b.amount) - Number(a.amount)).slice(0, 10).reverse();
   const chartHeight = 180;
-  const minWidth = 14
-  const neededWidth = projects.length * minWidth
+  const minWidth = 14;
+  const neededWidth = projects.length * minWidth;
   const chartWidth = Math.max(650, neededWidth);
   const maxXP = Math.max(...projects.map((p) => Number(p.amount)));
   const barWidth = chartWidth / projects.length;
@@ -29,10 +30,10 @@ export function drawXpChart(projects) {
       (Number(project.amount) / maxXP) * chartHeight,
       2,
     );
-    const gap = 2;
-    const x = index * barWidth ;
+    const gap = 6;
+    const x = index * barWidth;
     const y = chartHeight - barHeight;
-    const rectWidth=Math.max(barWidth-gap,2)
+    const rectWidth = Math.max(barWidth - gap, 2);
     const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
     const title = document.createElementNS(
       "http://www.w3.org/2000/svg",
