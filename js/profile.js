@@ -2,18 +2,18 @@ import { graphql } from "./graphql.js";
 import { drawXpChart, drawAuditChart } from "./charts.js";
 import { query } from "./query.js";
 
-async function CheckToken(){
+async function CheckToken() {
   let res = await graphql(query);
-    if (res === "err") {
-      localStorage.removeItem('token');
-      window.location.replace('index.html');
-      return;
-    }
+  if (res === "err") {
+    localStorage.removeItem('token');
+    window.location.replace('index.html');
+    return;
+  }
 }
 const tok = localStorage.getItem("token");
 if (tok) {
   await CheckToken();
-}else {
+} else {
   window.location.replace("index.html");
 }
 
@@ -26,15 +26,14 @@ async function loaadProfile() {
   try {
     const data = await graphql(query);
     const user = data.user[0];
-    const xps = data.user[0].xps;
-
-    let totalXp = xps.reduce((sum, t) => sum + Number(t.amount), 0) / 1000;
+    let totalXp = data.xps.aggregate.sum.amount;
+    
+    totalXp=totalXp/1000
     if (totalXp > 1000) {
-      totalXp = totalXp / 1000
-      document.getElementById("xp").textContent = `xp: ${(totalXp).toFixed(2)} MB`;
-
+      console.log("xps:",{totalXp})
+      document.getElementById("xp").textContent = `xp: ${(totalXp / 1000).toFixed(1)} MB`;
     } else {
-      document.getElementById("xp").textContent = `xp: ${Math.floor(totalXp)} KB`;
+      document.getElementById("xp").textContent = `xp: ${Math.floor((totalXp ))} KB`;
     }
 
 
@@ -82,4 +81,27 @@ export function formatXP(amount) {
   }
   return `${kb.toFixed(1)} kB`;
 }
+
+export function formatXPRatio(amount) {
+  let unite = "B"
+  if (amount < 1000) {
+    return `${amount} ${unite}`;
+  }
+
+  let kb = amount / 1000;
+  unite = "kB"
+
+  if (Number.isInteger(kb)) {
+    return `${kb}${unite}`;
+  }
+  if (kb < 10) {
+    return `${kb.toFixed(2)} ${unite}`;
+  }
+  if (kb > 1000) {
+    kb = (kb / 1000)
+    unite = "MB"
+  }
+  return `${kb.toFixed(1)} ${unite}`;
+}
+
 loaadProfile();

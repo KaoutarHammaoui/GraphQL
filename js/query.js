@@ -7,17 +7,15 @@ export const query = `
           auditRatio
           totalUp
           totalDown
-          xps(
-            where: {
-              _and: [
-                { path: { _like: "/oujda/module/%" } }
-                { path: { _nlike: "/oujda/module/piscine-js/%" } }
-              ]
-            }
-          ) {
-            amount
-          }
+    
         }
+        xps :  transaction_aggregate (where : {eventId: {_eq:41} type:{_eq:"xp"}}){
+                aggregate {
+                  sum{
+                    amount
+                  }
+                }
+              }
         level: transaction(
           where: { type: { _eq: "level" } }
           order_by: { createdAt: desc }

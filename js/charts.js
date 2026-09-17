@@ -1,4 +1,4 @@
-import { formatXP } from "./profile.js";
+import { formatXP, formatXPRatio } from "./profile.js";
 
 export function drawXpChart(pr) {
   const svg = document.getElementById("xpChart");
@@ -69,6 +69,7 @@ ${formatXP(Number(project.amount))}`;
 export function drawAuditChart(up, down) {
   const svg = document.getElementById("auditChart");
 
+
   const size = 220;
   const center = size / 2;
 
@@ -110,8 +111,10 @@ export function drawAuditChart(up, down) {
   const upPercent = up / total;
   const downPercent = down / total;
 
-  const upText = formatXP(up);
-  const downText = formatXP(down);
+  const upText = formatXPRatio(up);
+    const downText = formatXPRatio(down);
+
+
 
   const circumference = 2 * Math.PI * radius;
 
