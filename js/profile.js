@@ -1,11 +1,19 @@
 import { graphql } from "./graphql.js";
 import { drawXpChart, drawAuditChart } from "./charts.js";
+import { query } from "./query.js";
 
-
-
+async function CheckToken(){
+  let res = await graphql(query);
+    if (res === "err") {
+      localStorage.removeItem('token');
+      window.location.replace('index.html');
+      return;
+    }
+}
 const tok = localStorage.getItem("token");
-
-if (!tok) {
+if (tok) {
+  await CheckToken();
+}else {
   window.location.replace("index.html");
 }
 
@@ -14,57 +22,9 @@ document.getElementById("logout").addEventListener("click", () => {
   window.location.replace("index.html");
 });
 
-
-
 async function loaadProfile() {
   try {
-    const data = await graphql(`
-      {
-        user {
-          id
-          login
-          avatarUrl
-          auditRatio
-          totalUp
-          totalDown
-          xps(
-            where: {
-              _and: [
-                { path: { _like: "/oujda/module/%" } }
-                { path: { _nlike: "/oujda/module/piscine-js/%" } }
-              ]
-            }
-          ) {
-            amount
-          }
-        }
-        level: transaction(
-          where: { type: { _eq: "level" } }
-          order_by: { createdAt: desc }
-          limit: 1
-        ) {
-          amount
-          path
-          createdAt
-        }
-
-        projects: transaction(
-          where: {
-            _and: [
-              { type: { _eq: "xp" } }
-              { path: { _like: "/oujda/module/%" } }
-              { path: { _nlike: "/oujda/module/piscine-js/%" } }
-              { path: { _nlike: "/oujda/module/checkpoint/%" } }
-            ]
-          }
-          order_by: { createdAt: desc }
-        ) {
-          path
-          amount
-          createdAt
-        }
-      }
-    `);
+    const data = await graphql(query);
     const user = data.user[0];
     const xps = data.user[0].xps;
 
@@ -76,6 +36,8 @@ async function loaadProfile() {
     } else {
       document.getElementById("xp").textContent = `xp: ${Math.floor(totalXp)} KB`;
     }
+
+
     document.getElementById("avatar").src = user.avatarUrl;
     document.getElementById("log").textContent = user.login;
     document.getElementById("userId").textContent = `User ID: ${user.id}`;

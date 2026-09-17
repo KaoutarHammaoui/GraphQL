@@ -1,5 +1,3 @@
-// we're sending the query as JSON in the request body, which is why POST is commonly used.
-// 3. Why read the token inside graphql()? =>encapsulation.
 
 export async function graphql(query) {
     const tok = localStorage.getItem('token');
@@ -16,13 +14,12 @@ export async function graphql(query) {
     );
 
     if (!res.ok) {
-        throw new Error('fetch failed');
+        return "err"
     }
     const json = await res.json()
     if (json.errors) {
-        throw new Error(json.errors[0].message);
+        return "err"
     }
-    //cuz graphql can return 200 even when the query has erroes, e.g: undefined user=> 200. that's why we 're gonna check it with json.errors
     return json.data;
 
 }
